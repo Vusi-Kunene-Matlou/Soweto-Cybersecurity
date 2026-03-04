@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Soweto Cyber Heroes 🛡️</title>
+<title>Mabule International Soweto Cyber Heroes 🛡️</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -45,7 +45,8 @@
     display:flex;align-items:center;justify-content:space-between;
     padding:12px 20px;
   }
-  .nav-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--yellow);letter-spacing:1px;font-weight:700;}
+  .nav-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--yellow);letter-spacing:1px;font-weight:700;display:flex;align-items:center;gap:10px;}
+  .nav-logo-img{height:40px;width:auto;border-radius:8px;object-fit:contain;}
   .nav-links{display:flex;gap:16px;}
   .nav-links a{color:var(--accent);font-size:.82rem;text-decoration:none;font-weight:700;letter-spacing:.5px;transition:all .3s;border-bottom:2px solid transparent;padding-bottom:4px;}
   .nav-links a:hover{color:var(--yellow);border-bottom-color:var(--yellow);}
@@ -128,12 +129,12 @@
     box-shadow:0 0 16px rgba(0,245,212,.15);
   }
   .btn-primary{
-    background:linear-gradient(135deg,var(--yellow),#ff9500);
-    color:var(--black);font-weight:800;font-size:1rem;
+    background:linear-gradient(135deg,#E03C31,#c41c0e);
+    color:white;font-weight:800;font-size:1rem;
     border:none;border-radius:12px;padding:15px 32px;
     cursor:pointer;letter-spacing:.5px;
     transition:all .3s ease;
-    box-shadow:0 8px 24px rgba(255,184,28,.35);
+    box-shadow:0 8px 24px rgba(224,60,49,.35);
     text-decoration:none;display:inline-block;
     position:relative;overflow:hidden;
   }
@@ -142,7 +143,7 @@
     background:rgba(255,255,255,.15);transition:left .3s;z-index:-1;
   }
   .btn-primary:hover::before{left:100%;}
-  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,184,28,.5);}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(224,60,49,.5);}
   .btn-primary:active{transform:translateY(-1px);}
   .pledge-box{
     background:rgba(0,122,77,.15);
@@ -560,7 +561,7 @@
           <div class="cert-text">This certifies that</div>
           <div class="cert-agent-name" id="certAgentName">Cyber Agent</div>
           <div class="cert-badge">🛡️</div>
-          <div class="cert-text">has successfully completed the<br/><strong>Soweto Cyber Heroes Training 2025</strong></div>
+          <div class="cert-text">has successfully completed the<br/><strong>Mabule International Soweto Cyber Heroes Training 2026</strong></div>
           <div class="cert-text">by demonstrating knowledge in:</div>
           <div style="font-size:.9rem;color:#a0b4d0;margin:16px 0;">
             ✓ Cyber Hygiene & Password Security<br/>
@@ -569,7 +570,7 @@
             ✓ Career Pathways in Cybersecurity
           </div>
           <div class="cert-score" id="certScore">Quiz Score: 5/5</div>
-          <div class="cert-date" id="certDate">Date: March 4, 2026</div>
+          <div class="cert-date" id="certDate">Date: March 7, 2026</div>
           <div class="cert-text" style="font-size:.85rem;margin-top:24px;">
             You are now a certified Cyber Hero.<br/>
             <strong>Protect Soweto. Protect the Future.</strong>
@@ -592,7 +593,10 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">🛡️ CYBER HEROES</div>
+  <div class="nav-logo">
+    <img src="Mabule International.jpg" alt="Mabule International Logo" class="nav-logo-img"/>
+    🛡️ Mabule International CYBER HEROES
+  </div>
   <div style="display:flex;align-items:center;gap:12px;">
     <div class="lang-toggle" id="langToggle">
       <button class="lang-btn active" data-lang="en">EN</button>
@@ -613,7 +617,7 @@
 <!-- HERO -->
 <section id="hero">
   <div class="container">
-    <div class="hero-badge">🇿🇦 SOWETO CYBER HEROES 2025</div>
+    <div class="hero-badge">Mabule International SOWETO CYBER HEROES 2026</div>
     <h1 class="hero-title">Welcome,<br><span id="agent-name-title">Cyber Agent!</span></h1>
     <p class="hero-sub">Your mission: protect your family, school, and future from cyber threats — and maybe become a real Cyber Hero one day. 🚀</p>
     <div class="agent-input-row">
@@ -920,7 +924,7 @@
 </section>
 
 <footer>
-  Made with ❤️ for Soweto's future <span>Cyber Heroes</span> 🛡️ | 2025<br/>
+  Made with Honour for Soweto's future <span>Cyber Heroes</span> 🛡️ | 2026<br/>
   <span style="color:#2a3560;">Protecting Soweto, one agent at a time.</span>
 </footer>
 
