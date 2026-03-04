@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Soweto Cyber Heroes 🛡️</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --green: #007A4D;
+    --yellow: #FFB81C;
+    --blue: #002395;
+    --black: #1a1a2e;
+    --red: #E03C31;
+    --white: #f5f5f5;
+    --card-bg: #0d1b3e;
+    --accent: #00f5d4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:#07091a;
+    color:var(--white);
+    font-family:'Nunito',sans-serif;
+    overflow-x:hidden;
+  }
+
+  /* ── STARS BACKGROUND ── */
+  body::before{
+    content:'';
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:radial-gradient(ellipse at 20% 20%,#001a4d33 0%,transparent 60%),
+               radial-gradient(ellipse at 80% 80%,#007a4d22 0%,transparent 60%);
+    pointer-events:none;z-index:0;
+  }
+
+  /* ── NAV ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:999;
+    background:rgba(7,9,26,0.95);
+    backdrop-filter:blur(12px);
+    border-bottom:2px solid var(--yellow);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 20px;
+  }
+  .nav-logo{font-family:'Orbitron',monospace;font-size:1rem;color:var(--yellow);letter-spacing:1px;font-weight:700;display:flex;align-items:center;gap:10px;}
+  .nav-logo-img{height:40px;width:auto;border-radius:8px;object-fit:contain;}
+  .nav-links{display:flex;gap:16px;}
+  .nav-links a{color:var(--accent);font-size:.82rem;text-decoration:none;font-weight:700;letter-spacing:.5px;transition:all .3s;border-bottom:2px solid transparent;padding-bottom:4px;}
+  .nav-links a:hover{color:var(--yellow);border-bottom-color:var(--yellow);}
+  .nav-toggle{display:none;background:none;border:none;color:var(--yellow);font-size:1.5rem;cursor:pointer;z-index:1000;}
+  @media(max-width:640px){
+    .nav-links{position:absolute;top:50px;left:0;right:0;flex-direction:column;background:rgba(7,9,26,.98);gap:0;display:none;border-top:1px solid var(--yellow);}
+    .nav-links.active{display:flex;}
+    .nav-links a{padding:14px 20px;border-bottom:1px solid rgba(255,184,28,.1);border-bottom:none;border-left:4px solid transparent;}
+    .nav-links a:hover{border-left-color:var(--yellow);}
+    .nav-toggle{display:block;}
+    .lang-toggle{display:none;}
+  }
+
+  /* ── LANGUAGE TOGGLE ── */
+  .lang-toggle{
+    display:flex;gap:4px;background:rgba(0,245,212,.08);
+    border:1px solid rgba(0,245,212,.2);
+    border-radius:8px;padding:4px;
+  }
+  .lang-btn{
+    background:transparent;border:none;color:var(--accent);
+    font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:6px;
+    cursor:pointer;transition:all .2s;letter-spacing:1px;
+  }
+  .lang-btn.active{background:rgba(0,245,212,.2);color:var(--yellow);}
+  .lang-btn:hover{background:rgba(0,245,212,.15);}
+
+  /* ── SECTIONS ── */
+  section{position:relative;z-index:1;padding:100px 20px 80px;}
+  .container{max-width:720px;margin:0 auto;}
+
+  /* ── HERO ── */
+  #hero{
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+    background:radial-gradient(ellipse at center,#001a4d 0%,#07091a 70%);
+    padding-top:120px;
+  }
+  .hero-badge{
+    display:inline-block;
+    background:var(--yellow);color:var(--black);
+    font-weight:800;font-size:.8rem;letter-spacing:2px;
+    padding:8px 18px;border-radius:20px;margin-bottom:24px;
+    animation:pulse 2.5s infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+  .hero-title{
+    font-family:'Orbitron',monospace;
+    font-size:clamp(2.2rem,8vw,3.8rem);
+    font-weight:900;
+    line-height:1.1;
+    background:linear-gradient(135deg,#fff 0%,var(--yellow) 50%,var(--accent) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    margin-bottom:20px;letter-spacing:.5px;
+  }
+  .hero-sub{
+    font-size:clamp(1rem,2vw,1.15rem);
+    color:#a0b4d0;
+    margin-bottom:32px;
+    max-width:540px;
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.7;
+    font-weight:500;
+  }
+  .agent-input-row{display:flex;gap:12px;max-width:420px;margin:0 auto 32px;flex-wrap:wrap;justify-content:center;}
+  .agent-input{
+    flex:1;min-width:220px;
+    background:rgba(255,255,255,.08);
+    border:2px solid rgba(0,245,212,.3);
+    border-radius:12px;padding:14px 16px;
+    color:white;font-size:1rem;font-family:'Nunito',sans-serif;
+    outline:none;transition:all .3s;
+  }
+  .agent-input::placeholder{color:#667;}
+  .agent-input:focus{
+    border-color:var(--accent);
+    background:rgba(0,245,212,.1);
+    box-shadow:0 0 16px rgba(0,245,212,.15);
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,#E03C31,#c41c0e);
+    color:white;font-weight:800;font-size:1rem;
+    border:none;border-radius:12px;padding:15px 32px;
+    cursor:pointer;letter-spacing:.5px;
+    transition:all .3s ease;
+    box-shadow:0 8px 24px rgba(224,60,49,.35);
+    text-decoration:none;display:inline-block;
+    position:relative;overflow:hidden;
+  }
+  .btn-primary::before{
+    content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:rgba(255,255,255,.15);transition:left .3s;z-index:-1;
+  }
+  .btn-primary:hover::before{left:100%;}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(224,60,49,.5);}
+  .btn-primary:active{transform:translateY(-1px);}
+  .pledge-box{
+    background:rgba(0,122,77,.15);
+    border:2px dashed var(--green);
+    border-radius:16px;padding:20px;
+    margin-top:32px;font-size:.9rem;color:#b0d8c8;
+    max-width:480px;margin-left:auto;margin-right:auto;
+  }
+  .pledge-box strong{color:var(--green);font-size:1rem;}
+  .scroll-hint{margin-top:40px;color:#556;font-size:.8rem;animation:bounce 2s infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+
+  /* ── SECTION HEADERS ── */
+  .mission-label{
+    display:inline-flex;align-items:center;gap:10px;
+    background:linear-gradient(135deg,var(--blue),#0041c2);
+    border:2px solid rgba(0,243,212,.3);
+    border-radius:20px;padding:8px 20px;
+    font-family:'Orbitron',monospace;font-size:.75rem;
+    color:var(--accent);letter-spacing:2.5px;margin-bottom:20px;
+    font-weight:800;
+  }
+  .section-title{
+    font-family:'Orbitron',monospace;
+    font-size:clamp(1.6rem,5vw,2.4rem);
+    font-weight:900;margin-bottom:16px;
+    color:white;letter-spacing:.5px;
+  }
+  .section-sub{color:#8090aa;font-size:.98rem;margin-bottom:40px;line-height:1.7;font-weight:500;}
+
+  /* ── MISSION 1: HYGIENE CARDS ── */
+  .tip-grid{display:grid;gap:18px;}
+  .tip-card{
+    background:var(--card-bg);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;padding:24px;
+    display:flex;gap:16px;align-items:flex-start;
+    transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);cursor:pointer;
+  }
+  .tip-card:hover{
+    transform:translateY(-4px) scale(1.02);
+    border-color:var(--accent);
+    background:#0f2040;
+    box-shadow:0 12px 28px rgba(0,245,212,.15);
+  }
+  .tip-icon{font-size:2rem;flex-shrink:0;transform:scale(1);transition:transform .3s;}
+  .tip-card:hover .tip-icon{transform:scale(1.1) rotate(5deg);}
+  .tip-title{font-weight:800;font-size:1.05rem;margin-bottom:8px;color:white;}
+  .tip-text{color:#8090aa;font-size:.9rem;line-height:1.6;}
+  .tip-sa{
+    margin-top:10px;
+    background:rgba(255,184,28,.12);
+    border-left:3px solid var(--yellow);
+    padding:10px 14px;border-radius:0 8px 8px 0;
+    font-size:.85rem;color:var(--yellow);
+    line-height:1.5;
+  }
+
+  /* ── PASSWORD TESTER ── */
+  .pw-tester{
+    background:var(--card-bg);
+    border:2px solid rgba(0,243,212,.2);
+    border-radius:20px;padding:28px;margin-top:28px;
+    box-shadow:0 8px 20px rgba(0,243,212,.08);
+  }
+  .pw-tester h3{font-family:'Orbitron',monospace;font-size:1.05rem;color:var(--accent);margin-bottom:18px;letter-spacing:.5px;}
+  .pw-input-wrap{position:relative;}
+  .pw-input{
+    width:100%;background:rgba(255,255,255,.06);
+    border:2px solid #2a3560;border-radius:12px;
+    padding:14px 50px 14px 16px;color:white;
+    font-size:1rem;font-family:'Nunito',sans-serif;outline:none;
+    transition:all .3s;
+  }
+  .pw-input:focus{
+    border-color:var(--accent);
+    background:rgba(0,245,212,.06);
+    box-shadow:0 0 16px rgba(0,245,212,.15);
+  }
+  .pw-eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.2rem;user-select:none;opacity:.6;transition:opacity .2s;}
+  .pw-eye:hover{opacity:1;}
+  .pw-bar-wrap{height:9px;background:#1a2040;border-radius:5px;margin:14px 0;overflow:hidden;}
+  .pw-bar{height:100%;border-radius:5px;width:0;transition:width .4s,background .4s;box-shadow:0 0 12px currentColor;}
+  .pw-label{font-weight:800;font-size:.95rem;margin-bottom:6px;}
+  .pw-tips{font-size:.84rem;color:#8090aa;min-height:24px;font-weight:500;}
+
+  /* ── MISSION 2: SCAM QUIZ ── */
+  #quiz-section{background:linear-gradient(135deg,#07091a 0%,#0d1b3e 100%);}
+  .quiz-card{
+    background:var(--card-bg);
+    border:2px solid rgba(255,255,255,.08);
+    border-radius:20px;padding:32px;
+    box-shadow:0 8px 32px rgba(0,0,0,.3);
+  }
+  .quiz-progress{
+    display:flex;gap:8px;margin-bottom:28px;
+  }
+  .quiz-dot{
+    flex:1;height:7px;border-radius:4px;
+    background:#1a2040;transition:all .4s;
+  }
+  .quiz-dot.done{background:linear-gradient(90deg,var(--green),#5fffb8);}
+  .quiz-dot.active{background:linear-gradient(90deg,var(--yellow),#ff9500);box-shadow:0 0 12px rgba(255,184,28,.4);}
+  .quiz-q-label{font-size:.8rem;color:#8090aa;letter-spacing:1.5px;margin-bottom:16px;font-weight:700;}
+  .quiz-source{
+    background:rgba(255,255,255,.04);
+    border-radius:12px;padding:18px;
+    font-size:.98rem;line-height:1.7;
+    margin-bottom:24px;border-left:4px solid var(--yellow);
+  }
+  .quiz-source .from{font-size:.78rem;color:#8090aa;margin-bottom:8px;font-weight:700;letter-spacing:.5px;}
+  .quiz-btns{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .quiz-btn{
+    padding:18px;border-radius:12px;
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;
+    cursor:pointer;border:2px solid transparent;
+    transition:all .3s;
+  }
+  .btn-safe{background:rgba(0,122,77,.2);border-color:var(--green);color:#5fffb8;}
+  .btn-safe:hover{background:rgba(0,122,77,.35);transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,122,77,.2);}
+  .btn-scam{background:rgba(224,60,49,.2);border-color:var(--red);color:#ff7b72;}
+  .btn-scam:hover{background:rgba(224,60,49,.35);transform:translateY(-2px);box-shadow:0 8px 16px rgba(224,60,49,.2);}
+  .quiz-feedback{
+    margin-top:24px;padding:20px;border-radius:12px;
+    font-size:.95rem;line-height:1.7;
+    display:none;
+  }
+  .quiz-feedback.correct{background:rgba(0,122,77,.2);border:1px solid var(--green);}
+  .quiz-feedback.wrong{background:rgba(224,60,49,.15);border:1px solid var(--red);}
+  .quiz-feedback .fb-title{font-weight:800;font-size:1.15rem;margin-bottom:10px;}
+  .quiz-next{margin-top:18px;display:none;}
+  .quiz-score{text-align:center;padding:32px;display:none;}
+  .score-big{font-family:'Orbitron',monospace;font-size:3.5rem;color:var(--yellow);font-weight:900;}
+  .score-msg{font-size:1.15rem;margin-top:12px;color:#a0b4d0;font-weight:600;}
+
+  /* ── CONFETTI ── */
+  .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;}
+  .confetti-piece{position:absolute;width:10px;height:10px;opacity:0;}
+
+  /* ── MISSION 3: THREATS ── */
+  .threats-grid{display:grid;gap:14px;}
+  .threat-card{
+    background:var(--card-bg);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:16px;padding:20px;
+    cursor:pointer;
+    transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .threat-card:hover,.threat-card.open{
+    border-color:var(--accent);
+    background:#0f2040;
+    box-shadow:0 8px 20px rgba(0,245,212,.1);
+  }
+  .threat-header{display:flex;align-items:center;gap:14px;position:relative;}
+  .threat-icon{
+    width:48px;height:48px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+    flex-shrink:0;transition:transform .3s;
+  }
+  .threat-card:hover .threat-icon{transform:scale(1.08) rotate(-5deg);}
+  .threat-name{font-weight:800;font-size:1.05rem;color:white;}
+  .threat-tag{font-size:.73rem;color:#8090aa;margin-top:3px;font-weight:600;}
+  .threat-chevron{margin-left:auto;color:#556;transition:transform .3s;font-size:1.2rem;}
+  .threat-card.open .threat-chevron{transform:rotate(180deg);}
+  .threat-body{
+    max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s;
+    font-size:.9rem;color:#8090aa;line-height:1.7;
+  }
+  .threat-card.open .threat-body{max-height:220px;padding-top:16px;}
+  .beat-it{
+    margin-top:12px;
+    background:rgba(0,245,212,.1);
+    border-radius:8px;padding:11px 14px;
+    color:var(--accent);font-size:.87rem;
+    font-weight:600;
+  }
+  .beat-it::before{content:'🛡️ Beat it: ';font-weight:800;}
+
+  /* ── MISSION 4: CAREERS ── */
+  #careers{background:linear-gradient(135deg,#07091a 0%,#001a3d 100%);}
+  .salary-hero{
+    text-align:center;
+    background:linear-gradient(135deg,rgba(255,184,28,.12),rgba(0,245,212,.08));
+    border:2px solid rgba(255,184,28,.4);
+    border-radius:20px;padding:36px 24px;margin-bottom:36px;
+    box-shadow:0 8px 24px rgba(255,184,28,.15);
+  }
+  .salary-amt{
+    font-family:'Orbitron',monospace;
+    font-size:clamp(2rem,6vw,3rem);
+    color:var(--yellow);font-weight:900;
+    letter-spacing:.5px;
+  }
+  .salary-role{color:#a0b4d0;font-size:.95rem;margin-top:6px;font-weight:600;}
+  .careers-grid{display:grid;gap:18px;margin:32px 0;}
+  .career-card{
+    background:var(--card-bg);border:1px solid rgba(255,255,255,.06);
+    border-radius:16px;padding:24px;
+    display:flex;gap:16px;align-items:flex-start;
+    transition:all .3s;
+  }
+  .career-card:hover{border-color:var(--accent);background:#0f2040;transform:translateY(-4px);}
+  .career-icon{font-size:2rem;flex-shrink:0;}
+  .career-title{font-weight:800;font-size:1.05rem;margin-bottom:6px;color:white;}
+  .career-sal{color:var(--yellow);font-weight:800;font-size:.9rem;margin-bottom:8px;}
+  .career-desc{color:#8090aa;font-size:.88rem;line-height:1.6;}
+
+  .resources-title{
+    font-family:'Orbitron',monospace;font-size:1.05rem;color:var(--accent);
+    margin:40px 0 20px;letter-spacing:1.5px;font-weight:800;
+  }
+  .resource-cards{display:grid;gap:14px;}
+  .resource-card{
+    background:rgba(0,245,212,.08);
+    border:1px solid rgba(0,245,212,.25);
+    border-radius:14px;padding:20px;
+    display:flex;align-items:center;gap:16px;
+    text-decoration:none;color:inherit;
+    transition:all .3s;
+  }
+  .resource-card:hover{
+    background:rgba(0,245,212,.15);
+    transform:translateX(6px);
+    border-color:rgba(0,245,212,.4);
+    box-shadow:0 8px 16px rgba(0,245,212,.1);
+  }
+  .resource-icon{font-size:2rem;flex-shrink:0;}
+  .resource-name{font-weight:800;font-size:.98rem;color:white;}
+  .resource-detail{font-size:.84rem;color:#8090aa;margin-top:3px;font-weight:500;}
+  .resource-free{
+    margin-left:auto;background:var(--green);color:white;
+    font-size:.72rem;font-weight:800;padding:5px 12px;border-radius:20px;flex-shrink:0;
+  }
+
+  /* ── BADGES ── */
+  #badges{background:radial-gradient(ellipse at center,#001233 0%,#07091a 70%);}
+  .badges-row{
+    display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
+    margin-bottom:48px;
+  }
+  @media(max-width:768px){
+    .badges-row{gap:16px;margin-bottom:32px;}
+  }
+  .badge{
+    width:120px;text-align:center;opacity:.35;
+    transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);filter:grayscale(85%) brightness(.8);
+  }
+  .badge.unlocked{opacity:1;filter:none;transform:scale(1.08);}
+  .badge-icon{
+    width:100px;height:100px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:2.8rem;margin:0 auto 10px;
+    border:3px solid transparent;
+    transition:all .4s;
+  }
+  .badge.unlocked .badge-icon{
+    border-color:var(--yellow);
+    box-shadow:0 0 24px rgba(255,184,28,.6), inset 0 0 20px rgba(255,184,28,.2);
+    animation:glowPulse 2s infinite;
+  }
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 24px rgba(255,184,28,.6), inset 0 0 20px rgba(255,184,28,.2);}50%{box-shadow:0 0 40px rgba(255,184,28,.9), inset 0 0 30px rgba(255,184,28,.3);}}
+  .badge-name{font-size:.8rem;font-weight:800;color:#a0b4d0;letter-spacing:.5px;}
+  .badge.unlocked .badge-name{color:var(--yellow);}
+  .badge-lock{font-size:.7rem;color:#667;margin-top:6px;font-weight:700;}
+
+  /* ── DOWNLOADS ── */
+  .dl-grid{display:grid;gap:14px;}
+  .dl-card{
+    background:var(--card-bg);border:1px solid rgba(255,255,255,.06);
+    border-radius:14px;padding:18px 20px;
+    display:flex;align-items:center;gap:14px;
+    cursor:pointer;transition:all .3s;
+  }
+  .dl-card:hover{border-color:var(--yellow);transform:translateX(6px);background:#0f2040;}
+  .dl-icon{font-size:1.8rem;}
+  .dl-name{font-weight:700;font-size:.95rem;}
+  .dl-desc{font-size:.8rem;color:#8090aa;margin-top:2px;}
+  .dl-arrow{margin-left:auto;color:var(--yellow);font-size:1.3rem;}
+
+  /* ── MEMES ── */
+  .memes-title{font-family:'Orbitron',monospace;font-size:1.05rem;color:var(--yellow);margin:44px 0 18px;font-weight:800;letter-spacing:1px;}
+  .memes-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:640px){
+    .memes-grid{grid-template-columns:1fr;}
+  }
+  .meme-card{
+    background:var(--card-bg);border-radius:14px;
+    padding:20px 14px;text-align:center;
+    font-size:.87rem;line-height:1.6;color:#a0b4d0;
+    border:1px solid rgba(255,255,255,.06);
+    transition:all .3s;
+  }
+  .meme-card:hover{border-color:var(--yellow);background:#0f2040;transform:scale(1.02);}
+  .meme-card .meme-emoji{font-size:2.8rem;display:block;margin-bottom:12px;}
+  .meme-card strong{color:white;display:block;margin-top:8px;font-size:.82rem;font-weight:800;}
+
+  /* ── CONTACT ── */
+  .contact-box{
+    background:linear-gradient(135deg,rgba(0,122,77,.15),rgba(0,35,149,.15));
+    border:2px solid rgba(0,245,212,.3);
+    border-radius:20px;padding:36px 24px;text-align:center;margin-top:32px;
+    box-shadow:0 8px 24px rgba(0,245,212,.08);
+  }
+  .contact-box h3{font-family:'Orbitron',monospace;font-size:1.3rem;color:var(--accent);margin-bottom:14px;letter-spacing:.5px;}
+  .contact-box p{color:#8090aa;font-size:.95rem;margin-bottom:24px;line-height:1.6;}
+  .wa-btn{
+    display:inline-flex;align-items:center;gap:10px;
+    background:linear-gradient(135deg,#25D366,#20c353);
+    color:white;
+    font-weight:800;font-size:1.05rem;
+    padding:16px 32px;border-radius:14px;
+    text-decoration:none;transition:all .3s;
+    box-shadow:0 8px 20px rgba(37,211,102,.4);
+  }
+  .wa-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px rgba(37,211,102,.6);
+  }
+
+  /* ── FOOTER ── */
+  footer{
+    text-align:center;padding:40px 20px;
+    font-size:.82rem;color:#2a3560;
+    border-top:1px solid #1a2040;
+    background:rgba(0,0,0,.3);
+  }
+  footer span{color:var(--yellow);font-weight:700;}
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media(max-width:768px){
+    section{padding:80px 16px 60px;}
+    .container{max-width:100%;}
+    .quiz-btns{grid-template-columns:1fr;}
+    .agent-input-row{flex-direction:column;}
+    .agent-input{min-width:100%;}
+  }
+  @media(max-width:480px){
+    section{padding:60px 14px 50px;}
+    .hero-title{font-size:clamp(1.8rem,5vw,2.4rem);}
+    .section-title{font-size:clamp(1.3rem,4vw,1.8rem);}
+    .btn-primary{padding:13px 26px;font-size:.95rem;}
+    .tip-grid{gap:14px;}
+    .tip-card{padding:18px;}
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar{
+    position:fixed;top:0;left:0;height:3px;
+    background:linear-gradient(90deg,var(--green),var(--yellow),var(--accent));
+    z-index:9998;transition:width .1s;
+  }
+
+  /* ── AGENT NAME display ── */
+  .agent-name-display{display:none;}
+
+  /* ── CERTIFICATE MODAL ── */
+  .modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);}
+  .modal.active{display:flex;align-items:center;justify-content:center;}
+  .modal-content{background:var(--card-bg);border-radius:20px;padding:32px;max-width:600px;width:90%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.8);}
+  .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--yellow);font-size:1.8rem;cursor:pointer;}
+  .certificate-container{background:linear-gradient(135deg,rgba(255,184,28,.1),rgba(0,245,212,.05));border:3px solid var(--yellow);border-radius:16px;padding:40px;text-align:center;position:relative;overflow:hidden;margin:20px 0;}
+  .certificate-container::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,184,28,.1) 1px,transparent 1px);background-size:20px 20px;opacity:.5;}
+  .certificate-content{position:relative;z-index:1;}
+  .cert-title{font-family:'Orbitron',monospace;font-size:1.8rem;color:var(--yellow);margin-bottom:8px;letter-spacing:2px;}
+  .cert-subtitle{color:#8090aa;font-size:.9rem;margin-bottom:24px;}
+  .cert-agent-name{font-family:'Orbitron',monospace;font-size:2rem;color:white;margin:20px 0;font-weight:900;}
+  .cert-text{color:#a0b4d0;font-size:.95rem;line-height:1.8;margin:20px 0;}
+  .cert-score{font-size:1.3rem;color:var(--yellow);font-weight:800;margin:16px 0;}
+  .cert-date{color:#667;font-size:.85rem;margin:20px 0;}
+  .cert-badge{font-size:3rem;margin:20px 0;}
+  .modal-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:24px;}
+  .cert-btn{
+    background:linear-gradient(135deg,var(--yellow),#ff9500);
+    color:var(--black);font-weight:800;font-size:.95rem;
+    border:none;border-radius:10px;padding:12px 20px;
+    cursor:pointer;transition:all .3s;
+  }
+  .cert-btn:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(255,184,28,.4);}
+  
+  /* ── SOCIAL SHARE ── */
+  .social-share{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px;}
+  .share-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:44px;height:44px;border-radius:10px;border:none;cursor:pointer;
+    font-size:1.3rem;transition:all .3s;font-weight:800;
+  }
+  .share-whatsapp{background:rgba(37,211,102,.2);border:1px solid #25D366;}
+  .share-whatsapp:hover{background:#25D366;transform:scale(1.1);}
+  .share-twitter{background:rgba(29,161,242,.2);border:1px solid #1da1f2;}
+  .share-twitter:hover{background:#1da1f2;transform:scale(1.1);}
+  .share-facebook{background:rgba(24,119,242,.2);border:1px solid #1877f2;}
+  .share-facebook:hover{background:#1877f2;transform:scale(1.1);}
+  .share-copy{background:rgba(0,245,212,.2);border:1px solid var(--accent);}
+  .share-copy:hover{background:rgba(0,245,212,.4);transform:scale(1.1);}
+</style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:0%"></div>
+<div class="confetti-container" id="confetti"></div>
+
+<!-- CERTIFICATE MODAL -->
+<div id="certificateModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeCertificate()">✕</button>
+    <div id="certificateContent">
+      <div class="certificate-container">
+        <div class="certificate-content">
+          <div class="cert-title">CERTIFICATE</div>
+          <div class="cert-subtitle">OF CYBER SECURITY ACHIEVEMENT</div>
+          <div class="cert-text">This certifies that</div>
+          <div class="cert-agent-name" id="certAgentName">Cyber Agent</div>
+          <div class="cert-badge">🛡️</div>
+          <div class="cert-text">has successfully completed the<br/><strong>Soweto Cyber Heroes Training 2025</strong></div>
+          <div class="cert-text">by demonstrating knowledge in:</div>
+          <div style="font-size:.9rem;color:#a0b4d0;margin:16px 0;">
+            ✓ Cyber Hygiene & Password Security<br/>
+            ✓ Phishing & Scam Detection<br/>
+            ✓ Threat Awareness<br/>
+            ✓ Career Pathways in Cybersecurity
+          </div>
+          <div class="cert-score" id="certScore">Quiz Score: 5/5</div>
+          <div class="cert-date" id="certDate">Date: March 4, 2026</div>
+          <div class="cert-text" style="font-size:.85rem;margin-top:24px;">
+            You are now a certified Cyber Hero.<br/>
+            <strong>Protect Soweto. Protect the Future.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="cert-btn" onclick="downloadCertificate()">📥 Download PDF</button>
+      <button class="cert-btn" onclick="printCertificate()" style="background:linear-gradient(135deg,var(--accent),#00d4ff);">🖨️ Print</button>
+    </div>
+    <div class="social-share" style="border-top:1px solid rgba(255,255,255,.1);padding-top:20px;margin-top:20px;">
+      <button class="share-btn share-whatsapp" onclick="shareWhatsApp()" title="Share on WhatsApp">💬</button>
+      <button class="share-btn share-twitter" onclick="shareTwitter()" title="Share on Twitter">𝕏</button>
+      <button class="share-btn share-facebook" onclick="shareFacebook()" title="Share on Facebook">f</button>
+      <button class="share-btn share-copy" onclick="copyCertLink()" title="Copy Link">🔗</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="Mabule International.jpg" alt="Mabule International Logo" class="nav-logo-img"/>
+    🛡️ CYBER HEROES
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="lang-toggle" id="langToggle">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="zu">ZU</button>
+      <button class="lang-btn" data-lang="st">ST</button>
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#mission1" onclick="closeNav()" data-key="nav_mission1">Mission 1</a>
+    <a href="#quiz-section" onclick="closeNav()" data-key="nav_mission2">Mission 2</a>
+    <a href="#threats" onclick="closeNav()" data-key="nav_mission3">Mission 3</a>
+    <a href="#careers" onclick="closeNav()" data-key="nav_mission4">Mission 4</a>
+    <a href="#badges" onclick="closeNav()" data-key="nav_badges">Badges</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-badge">🇿🇦 SOWETO CYBER HEROES 2025</div>
+    <h1 class="hero-title">Welcome,<br><span id="agent-name-title">Cyber Agent!</span></h1>
+    <p class="hero-sub">Your mission: protect your family, school, and future from cyber threats — and maybe become a real Cyber Hero one day. 🚀</p>
+    <div class="agent-input-row">
+      <input class="agent-input" id="agentNameInput" type="text" placeholder="Enter your name, Agent..." maxlength="24"/>
+      <button class="btn-primary" onclick="setAgentName()">Activate 🛡️</button>
+    </div>
+    <div class="pledge-box">
+      <strong>🤝 Agent Pledge</strong><br/>
+      "I promise to protect my family, never click weird links, never share my OTP, and use my skills for good — not evil!"<br/>
+      <small style="color:#556;display:block;margin-top:8px;">📸 Screenshot this and show your friends!</small>
+    </div>
+    <a href="#mission1" class="btn-primary" style="margin-top:28px;display:inline-block;">🔓 START YOUR MISSION</a>
+    <p class="scroll-hint">↓ Scroll down to begin ↓</p>
+  </div>
+</section>
+
+<!-- MISSION 1 -->
+<section id="mission1">
+  <div class="container">
+    <div class="mission-label reveal">⚡ MISSION 1</div>
+    <h2 class="section-title reveal">Protect Yourself</h2>
+    <p class="section-sub reveal">5 cyber hygiene rules every South African needs to know — with real local examples.</p>
+
+    <div class="tip-grid">
+      <div class="tip-card reveal">
+        <div class="tip-icon">🔐</div>
+        <div>
+          <div class="tip-title">Use Strong Passwords</div>
+          <div class="tip-text">Avoid your birthday, "password123", or your school name. Use a mix of letters, numbers and symbols. Example: <em>S0wet0@H3ro!</em></div>
+          <div class="tip-sa">💡 Most South African hacks happen from weak passwords on banking apps.</div>
+        </div>
+      </div>
+      <div class="tip-card reveal">
+        <div class="tip-icon">📲</div>
+        <div>
+          <div class="tip-title">Turn ON Two-Factor Auth (MFA)</div>
+          <div class="tip-text">Enable the extra SMS/app code on your FNB, Capitec, or Gmail account. Even if someone has your password, they can't get in without your phone.</div>
+          <div class="tip-sa">💡 Capitec Bank's app supports biometric + PIN as MFA — use both!</div>
+        </div>
+      </div>
+      <div class="tip-card reveal">
+        <div class="tip-icon">🚫</div>
+        <div>
+          <div class="tip-title">NEVER Share Your OTP</div>
+          <div class="tip-text">No bank, NSFAS, SASSA, or Vodacom will ever call you and ask for your One-Time Pin. If someone does — it's a scammer. Hang up immediately.</div>
+          <div class="tip-sa">⚠️ "OTP scams" are the #1 banking fraud method in SA right now.</div>
+        </div>
+      </div>
+      <div class="tip-card reveal">
+        <div class="tip-icon">📶</div>
+        <div>
+          <div class="tip-title">Don't Bank on Public WiFi</div>
+          <div class="tip-text">Free WiFi at Maponya Mall or the library is great — but never log into your bank or NSFAS on it. Hackers can see everything on public networks.</div>
+          <div class="tip-sa">💡 Use your mobile data for anything financial. It's worth the data cost.</div>
+        </div>
+      </div>
+      <div class="tip-card reveal">
+        <div class="tip-icon">🔄</div>
+        <div>
+          <div class="tip-title">Update Your Apps & Phone</div>
+          <div class="tip-text">Those annoying update notifications? They patch security holes. An old Android phone with outdated apps is an open door for attackers.</div>
+          <div class="tip-sa">💡 Enable auto-updates overnight while your phone charges.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password Tester -->
+    <div class="pw-tester reveal">
+      <h3>🔑 Password Strength Tester</h3>
+      <p style="font-size:.85rem;color:#8090aa;margin-bottom:16px;">Try your password — we never store or send it anywhere. It's 100% private.</p>
+      <div class="pw-input-wrap">
+        <input class="pw-input" id="pwInput" type="password" placeholder="Type a password to test it..." oninput="checkPassword(this.value)"/>
+        <span class="pw-eye" onclick="togglePw()">👁️</span>
+      </div>
+      <div class="pw-bar-wrap"><div class="pw-bar" id="pwBar"></div></div>
+      <div class="pw-label" id="pwLabel"></div>
+      <div class="pw-tips" id="pwTips"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION 2: SCAM QUIZ -->
+<section id="quiz-section">
+  <div class="container">
+    <div class="mission-label reveal">🎮 MISSION 2</div>
+    <h2 class="section-title reveal">Spot the Scam</h2>
+    <p class="section-sub reveal">5 real-life messages from South Africa. You decide: SAFE or SCAM? Every answer teaches you something real.</p>
+
+    <div class="quiz-card reveal" id="quizCard">
+      <div class="quiz-progress" id="quizProgress">
+        <div class="quiz-dot active" id="dot0"></div>
+        <div class="quiz-dot" id="dot1"></div>
+        <div class="quiz-dot" id="dot2"></div>
+        <div class="quiz-dot" id="dot3"></div>
+        <div class="quiz-dot" id="dot4"></div>
+      </div>
+      <div class="quiz-q-label" id="quizQLabel">QUESTION 1 OF 5</div>
+      <div class="quiz-source" id="quizSource"></div>
+      <div class="quiz-btns">
+        <button class="quiz-btn btn-safe" onclick="quizAnswer('safe')">✅ SAFE</button>
+        <button class="quiz-btn btn-scam" onclick="quizAnswer('scam')">🚨 SCAM</button>
+      </div>
+      <div class="quiz-feedback" id="quizFeedback">
+        <div class="fb-title" id="fbTitle"></div>
+        <div id="fbText"></div>
+      </div>
+      <button class="btn-primary quiz-next" id="quizNext" onclick="nextQuestion()">Next Question →</button>
+      <div class="quiz-score" id="quizScore">
+        <div class="score-big" id="scoreBig"></div>
+        <div class="score-msg" id="scoreMsg"></div>
+        <button class="btn-primary" style="margin-top:20px;" onclick="restartQuiz()">🔄 Play Again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION 3: THREATS -->
+<section id="threats">
+  <div class="container">
+    <div class="mission-label reveal">🧠 MISSION 3</div>
+    <h2 class="section-title reveal">Know the Enemy</h2>
+    <p class="section-sub reveal">5 cyber threats, explained simply. Tap each one to learn how to beat it.</p>
+    <div class="threats-grid" id="threatsGrid"></div>
+  </div>
+</section>
+
+<!-- MISSION 4: CAREERS -->
+<section id="careers">
+  <div class="container">
+    <div class="mission-label reveal">💼 MISSION 4</div>
+    <h2 class="section-title reveal">Become a Cyber Hero</h2>
+    <p class="section-sub reveal">Cybersecurity is one of the highest-paying careers in South Africa — and you can start learning for FREE, right now, on your phone.</p>
+
+    <div class="salary-hero reveal">
+      <div style="font-size:.85rem;color:#8090aa;margin-bottom:8px;">ENTRY-LEVEL SALARY</div>
+      <div class="salary-amt">R350,000 – R500,000</div>
+      <div class="salary-role">Security Analyst per year 🇿🇦</div>
+      <div style="margin-top:16px;font-size:.85rem;color:#a0b4d0;">Senior / Ethical Hacker: <strong style="color:var(--yellow);">R600k – R1,000,000+</strong></div>
+    </div>
+
+    <div class="careers-grid reveal">
+      <div class="career-card">
+        <div class="career-icon">🔍</div>
+        <div>
+          <div class="career-title">Security Analyst</div>
+          <div class="career-sal">R350,000 – R500,000/year</div>
+          <div class="career-desc">Monitor company networks for threats. Entry-level — you can start with just one certification like CompTIA Security+.</div>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-icon">💻</div>
+        <div>
+          <div class="career-title">Ethical Hacker (Pen Tester)</div>
+          <div class="career-sal">R600,000 – R1,000,000+/year</div>
+          <div class="career-desc">Companies pay YOU to try to hack their systems — legally. The most exciting job in tech.</div>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-icon">☁️</div>
+        <div>
+          <div class="career-title">Cloud Security Engineer</div>
+          <div class="career-sal">R500,000 – R800,000/year</div>
+          <div class="career-desc">Secure cloud systems for banks and big companies. Huge demand as SA businesses move to AWS & Azure.</div>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-icon">🕵️</div>
+        <div>
+          <div class="career-title">Digital Forensics Investigator</div>
+          <div class="career-sal">R400,000 – R700,000/year</div>
+          <div class="career-desc">Work with the Hawks or private companies to investigate cybercrimes. Part detective, part coder.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resources-title reveal">🆓 START TODAY — FREE RESOURCES</div>
+    <div class="resource-cards reveal">
+      <a href="https://www.netacad.com" target="_blank" class="resource-card">
+        <div class="resource-icon">🌐</div>
+        <div>
+          <div class="resource-name">Cisco Networking Academy</div>
+          <div class="resource-detail">Full cybersecurity courses. Globally recognised. 100% free.</div>
+        </div>
+        <div class="resource-free">FREE</div>
+      </a>
+      <a href="https://tryhackme.com" target="_blank" class="resource-card">
+        <div class="resource-icon">🏴‍☠️</div>
+        <div>
+          <div class="resource-name">TryHackMe</div>
+          <div class="resource-detail">Learn hacking by DOING it in a browser. Beginner rooms are free.</div>
+        </div>
+        <div class="resource-free">FREE</div>
+      </a>
+      <a href="https://academy.hackthebox.com" target="_blank" class="resource-card">
+        <div class="resource-icon">📦</div>
+        <div>
+          <div class="resource-name">Hack The Box Academy</div>
+          <div class="resource-detail">Free beginner modules. Used by professional hackers worldwide.</div>
+        </div>
+        <div class="resource-free">FREE</div>
+      </a>
+      <a href="https://www.coursera.org/professional-certificates/google-cybersecurity" target="_blank" class="resource-card">
+        <div class="resource-icon">🎓</div>
+        <div>
+          <div class="resource-name">Google Cybersecurity Certificate</div>
+          <div class="resource-detail">Professional cert from Google. Financial aid available for SA students.</div>
+        </div>
+        <div class="resource-free">AID</div>
+      </a>
+    </div>
+
+    <div style="margin-top:28px;background:rgba(255,184,28,.08);border-radius:16px;padding:20px;border-left:4px solid var(--yellow);font-size:.88rem;color:#a0b4d0;line-height:1.7;" class="reveal">
+      💬 <strong style="color:white;">"Many South Africans started exactly like you — no money, just a phone and curiosity."</strong><br/>
+      Thabo from Soweto started on TryHackMe at 17. At 22 he was earning R40k/month as a junior pen tester.<br/>No university degree. Just free courses, practice, and persistence.
+    </div>
+  </div>
+</section>
+
+<!-- BADGES & COMPLETE -->
+<section id="badges">
+  <div class="container">
+    <div class="mission-label reveal">🏆 MISSION COMPLETE</div>
+    <h2 class="section-title reveal">Your Digital Badges</h2>
+    <p class="section-sub reveal">You've earned these by completing your training. Screenshot them and share with friends!</p>
+
+    <div class="badges-row" id="badgesRow">
+      <div class="badge" id="badge0">
+        <div class="badge-icon" style="background:rgba(0,122,77,.2);">🛡️</div>
+        <div class="badge-name">Cyber Guardian</div>
+        <div class="badge-lock" id="badgeLock0">🔒 Locked</div>
+      </div>
+      <div class="badge" id="badge1">
+        <div class="badge-icon" style="background:rgba(224,60,49,.2);">🎯</div>
+        <div class="badge-name">Scam Buster</div>
+        <div class="badge-lock" id="badgeLock1">🔒 Locked</div>
+      </div>
+      <div class="badge" id="badge2">
+        <div class="badge-icon" style="background:rgba(0,35,149,.2);">🚀</div>
+        <div class="badge-name">Future Hero</div>
+        <div class="badge-lock" id="badgeLock2">🔒 Locked</div>
+      </div>
+    </div>
+
+    <div class="dl-grid reveal">
+      <div class="dl-card" onclick="downloadChecklist()">
+        <div class="dl-icon">📋</div>
+        <div>
+          <div class="dl-name" data-key="dl_checklist">Cyber Safety Checklist</div>
+          <div class="dl-desc" data-key="dl_checklist_desc">Print it, stick it on your fridge. Share with your family.</div>
+        </div>
+        <div class="dl-arrow">↗</div>
+      </div>
+      <div class="dl-card" onclick="downloadRoadmap()">
+        <div class="dl-icon">🗺️</div>
+        <div>
+          <div class="dl-name" data-key="dl_roadmap">How to Start in Tech After Matric</div>
+          <div class="dl-desc" data-key="dl_roadmap_desc">Step-by-step plan — no money needed to begin.</div>
+        </div>
+        <div class="dl-arrow">↗</div>
+      </div>
+      <div class="dl-card" onclick="downloadLearningPlan()">
+        <div class="dl-icon">📚</div>
+        <div>
+          <div class="dl-name" data-key="dl_learning">Beginner Learning Plan</div>
+          <div class="dl-desc" data-key="dl_learning_desc">What to learn, in what order, using free resources only.</div>
+        </div>
+        <div class="dl-arrow">↗</div>
+      </div>
+    </div>
+
+    <div class="memes-title">😂 Cyber Memes (SA Edition)</div>
+    <div class="memes-grid reveal">
+      <div class="meme-card">
+        <span class="meme-emoji">🤦</span>
+        When someone says "my password is my dog's name"...
+        <strong>That dog is now a hacker.</strong>
+      </div>
+      <div class="meme-card">
+        <span class="meme-emoji">📱</span>
+        "SASSA wants your OTP urgently!"
+        <strong>SASSA doesn't even have your number, bro. 🚨</strong>
+      </div>
+      <div class="meme-card">
+        <span class="meme-emoji">😅</span>
+        Me clicking "update later" for 6 months straight...
+        <strong>The hackers: 🎉</strong>
+      </div>
+      <div class="meme-card">
+        <span class="meme-emoji">💸</span>
+        Hacker: "Your NSFAS failed, send R50"
+        <strong>Bro NSFAS always fails, this is nothing new 💀</strong>
+      </div>
+    </div>
+
+    <div class="contact-box reveal">
+      <h3>🤝 Got questions, Agent?</h3>
+      <p>Your presenter is here to help. Whether you want career advice, free course links, or just want to chat about getting into cybersecurity — send a message!</p>
+      <a href="https://wa.me/27000000000?text=Hi!%20I%20completed%20the%20Soweto%20Cyber%20Heroes%20training%20and%20want%20to%20learn%20more%20%F0%9F%9B%A1%EF%B8%8F" target="_blank" class="wa-btn">
+        💬 WhatsApp Your Presenter
+      </a>
+      <p style="font-size:.75rem;color:#2a3560;margin-top:12px;">Update the WhatsApp number above before deploying!</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Made with ❤️ for Soweto's future <span>Cyber Heroes</span> 🛡️ | 2025<br/>
+  <span style="color:#2a3560;">Protecting Soweto, one agent at a time.</span>
+</footer>
+
+<script>
+// ── MOBILE NAV TOGGLE ──
+function toggleNav(){
+  const navLinks=document.getElementById('navLinks');
+  navLinks.classList.toggle('active');
+}
+function closeNav(){
+  const navLinks=document.getElementById('navLinks');
+  navLinks.classList.remove('active');
+}
+
+// ── AGENT NAME ──
+function setAgentName(){
+  const val=document.getElementById('agentNameInput').value.trim();
+  if(val.length<2){
+    alert('Enter at least 2 characters, Agent!');
+    return;
+  }
+  document.getElementById('agent-name-title').textContent=val+', Cyber Agent! 🛡️';
+  document.getElementById('agentNameInput').value='';
+  unlockBadge(0);
+  saveProgress();
+  // Show success feedback
+  const btn=event.target;
+  const originalText=btn.textContent;
+  btn.textContent='✅ Welcome, Agent!';
+  setTimeout(()=>{btn.textContent=originalText;},2000);
+}
+const translations = {
+  en: {
+    nav_mission1: 'Mission 1',
+    nav_mission2: 'Mission 2',
+    nav_mission3: 'Mission 3',
+    nav_mission4: 'Mission 4',
+    nav_badges: 'Badges',
+    dl_checklist: 'Cyber Safety Checklist',
+    dl_checklist_desc: 'Print it, stick it on your fridge. Share with your family.',
+    dl_roadmap: 'How to Start in Tech After Matric',
+    dl_roadmap_desc: 'Step-by-step plan — no money needed to begin.',
+    dl_learning: 'Beginner Learning Plan',
+    dl_learning_desc: 'What to learn, in what order, using free resources only.',
+  },
+  zu: {
+    nav_mission1: 'Umzamo 1',
+    nav_mission2: 'Umzamo 2',
+    nav_mission3: 'Umzamo 3',
+    nav_mission4: 'Umzamo 4',
+    nav_badges: 'Ibhashi',
+    dl_checklist: 'Ilandelwaniso Lokulinda Kwe-Cyber',
+    dl_checklist_desc: 'Ikhophi yayo, namathela efrijini yakho. Zabelane nabangane bakho.',
+    dl_roadmap: 'Izindlela Zokuqala ku-Tech Ngemva kwe-Matric',
+    dl_roadmap_desc: 'Umkhakha-omkhulu wezinyathelo — akwadingi imali ukuqala.',
+    dl_learning: 'Uhlelo Lokokufunda Kuqala',
+    dl_learning_desc: 'Okufanele ufunde, ilanga-langa, usebenzisa izinsizakusulwa ezingenzhiselo.',
+  },
+  st: {
+    nav_mission1: 'Tiro 1',
+    nav_mission2: 'Tiro 2',
+    nav_mission3: 'Tiro 3',
+    nav_mission4: 'Tiro 4',
+    nav_badges: 'Diboto',
+    dl_checklist: 'Lenaane la Kgokganelano la Cyber',
+    dl_checklist_desc: 'E kope yona, e paakela mo forosheleng. Akanega ka bagaesi.',
+    dl_roadmap: 'Tsela ya Go Thoma mo Tech Morago ga Matric',
+    dl_roadmap_desc: 'Leano la kgato-kgato — ga go na dipeela go thoma.',
+    dl_learning: 'Leano la Go Ithuta ga ga Mafoko',
+    dl_learning_desc: 'Se o lokelang go ithuta, sekgonwa, o dirisa dipeelo tse se nang tshwallo.',
+  }
+};
+
+let currentLanguage = localStorage.getItem('lang') || 'en';
+
+// ── LANGUAGE INITIALIZATION ──
+function initLanguage() {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.lang === currentLanguage) btn.classList.add('active');
+  });
+  updatePageTranslations();
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentLanguage = btn.dataset.lang;
+    localStorage.setItem('lang', currentLanguage);
+    initLanguage();
+  });
+});
+
+function updatePageTranslations() {
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.dataset.key;
+    if (translations[currentLanguage][key]) {
+      el.textContent = translations[currentLanguage][key];
+    }
+  });
+}
+
+// ── PROGRESS STORAGE ──
+const progressKey = 'cyberHeroProgress';
+
+function initProgress() {
+  const stored = localStorage.getItem(progressKey);
+  if (stored) {
+    const data = JSON.parse(stored);
+    if (data.agentName) {
+      document.getElementById('agent-name-title').textContent = data.agentName + ', Cyber Agent! 🛡️';
+    }
+    if (data.quizScore !== undefined) {
+      restoreQuizState(data);
+    }
+    for (let i = 0; i < data.badgesUnlocked.length; i++) {
+      if (data.badgesUnlocked[i]) {
+        document.getElementById('badge'+i).classList.add('unlocked');
+        document.getElementById('badgeLock'+i).textContent = '✅ Unlocked!';
+        badgesUnlocked[i] = true;
+      }
+    }
+  }
+}
+
+function saveProgress() {
+  const progress = {
+    agentName: document.getElementById('agent-name-title').textContent.replace(', Cyber Agent! 🛡️', ''),
+    quizScore: score,
+    badgesUnlocked: badgesUnlocked,
+    timestamp: new Date().toISOString()
+  };
+  localStorage.setItem(progressKey, JSON.stringify(progress));
+}
+
+// ── PDF DOWNLOADS ──
+function generateChecklist() {
+  const content = `
+    <div style="font-family: Arial, sans-serif; padding: 20px;">
+      <h1 style="color: #FFB81C;">CYBER SAFETY CHECKLIST</h1>
+      <p style="color: #8090aa;">Print this out and stick it on your fridge. Share with your family!</p>
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">Password Security</h2>
+      <input type="checkbox"/> Use strong passwords (8+ characters, mix of letters, numbers, symbols)
+      <input type="checkbox"/> Never share passwords with anyone
+      <input type="checkbox"/> Use different passwords for different accounts
+      <input type="checkbox"/> Enable Two-Factor Authentication (2FA/MFA)
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">Phishing & Scams</h2>
+      <input type="checkbox"/> Never click suspicious links in messages
+      <input type="checkbox"/> Never share your OTP (One-Time Pin)
+      <input type="checkbox"/> Verify bank URLs before logging in
+      <input type="checkbox"/> Banks never ask for passwords via email/SMS
+      <input type="checkbox"/> SASSA, NSFAS don't contact via WhatsApp
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">Device Security</h2>
+      <input type="checkbox"/> Update apps and phone regularly
+      <input type="checkbox"/> Use strong screen lock (PIN/Biometric)
+      <input type="checkbox"/> Install antivirus software
+      <input type="checkbox"/> Only download from official app stores
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">Network Safety</h2>
+      <input type="checkbox"/> Never do banking on public WiFi
+      <input type="checkbox"/> Use mobile data for financial transactions
+      <input type="checkbox"/> Don't share personal info on public networks
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">Family Protection</h2>
+      <input type="checkbox"/> Share this checklist with family
+      <input type="checkbox"/> Teach younger siblings about online safety
+      <input type="checkbox"/> Set parental controls on children's devices
+      
+      <p style="margin-top: 30px; color: #667; font-size: 12px;">
+        Created by Soweto Cyber Heroes 🛡️ | Protecting our community, one agent at a time.
+      </p>
+    </div>
+  `;
+  return content;
+}
+
+function generateRoadmap() {
+  const content = `
+    <div style="font-family: Arial, sans-serif; padding: 20px;">
+      <h1 style="color: #FFB81C;">TECH CAREER ROADMAP</h1>
+      <p style="color: #8090aa;">How to Start in Cybersecurity After Matric (No Money Required)</p>
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">MONTH 1-3: FOUNDATION</h2>
+      <p>✓ Sign up for FREE courses at Cisco Networking Academy (cisco.com/netacad)</p>
+      <p>✓ Start CompTIA A+ or Security+ prep (free YouTube channels: Professor Messer)</p>
+      <p>✓ Practice on TryHackMe (beginner rooms are free)</p>
+      <p>✓ Join online tech communities (Reddit r/cybersecurity, Discord servers)</p>
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">MONTH 4-6: BUILD SKILLS</h2>
+      <p>✓ Complete 2-3 Cisco courses (Certificate worth including on CV)</p>
+      <p>✓ Do 10+ TryHackMe rooms</p>
+      <p>✓ Start Hack The Box Academy (free beginner modules)</p>
+      <p>✓ Build a GitHub with mini projects</p>
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">MONTH 7-12: CERTIFICATIONS & APPLY</h2>
+      <p>✓ Get CompTIA Security+ certification (cost ~R2000-3000 exam, but worth it)</p>
+      <p>✓ Or complete Google Cybersecurity Certificate (Coursera, financial aid available)</p>
+      <p>✓ Create portfolio on GitHub + personal website</p>
+      <p>✓ Apply to junior roles: Security Analyst, SOC Analyst, IT Support</p>
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">SA ENTRY-LEVEL SALARIES</h2>
+      <p><strong>Security Analyst:</strong> R350k - R500k/year</p>
+      <p><strong>SOC Analyst:</strong> R400k - R550k/year</p>
+      <p><strong>IT Support:</strong> R250k - R400k/year</p>
+      
+      <h2 style="color: #007A4D; margin-top: 20px;">FREE RESOURCES</h2>
+      <p>• Cisco Networking Academy - cisco.com/netacad</p>
+      <p>• TryHackMe - tryhackme.com</p>
+      <p>• Hack The Box - hackthebox.com</p>
+      <p>• Professor Messer (YouTube) - CompTIA prep</p>
+      <p>• Coursera - Google Cybersecurity Certificate (with financial aid)</p>
+      
+      <p style="margin-top: 30px; color: #667; font-size: 12px;">
+        Remember: Start now, work hard, stay curious. Your location doesn't limit your future.
+      </p>
+    </div>
+  `;
+  return content;
+}
+
+function generateLearningPlan() {
+  const content = `
+    <div style="font-family: Arial, sans-serif; padding: 20px;">
+      <h1 style="color: #FFB81C;">BEGINNER LEARNING PLAN</h1>
+      <p style="color: #8090aa;">What to Learn, In What Order (Using FREE Resources Only)</p>
+      
+      <h2 style="color: #002395; margin-top: 20px;">WEEK 1-2: THE BASICS</h2>
+      <p><strong>Topics:</strong> Computer basics, Networks 101, Linux intro</p>
+      <p><strong>Resource:</strong> Cisco Networking Academy (free courses)</p>
+      <p><strong>Time:</strong> 2-3 hours/day</p>
+      
+      <h2 style="color: #002395; margin-top: 20px;">WEEK 3-4: SECURITY FOUNDATIONS</h2>
+      <p><strong>Topics:</strong> Cryptography basics, Password security, Firewalls</p>
+      <p><strong>Resource:</strong> Professor Messer YouTube (CompTIA A+)</p>
+      <p><strong>Time:</strong> 2-3 hours/day</p>
+      
+      <h2 style="color: #002395; margin-top: 20px;">WEEK 5-8: HANDS-ON PRACTICE</h2>
+      <p><strong>Topics:</strong> Linux commands, Network analysis, Basic hacking concepts</p>
+      <p><strong>Resource:</strong> TryHackMe (beginner rooms)</p>
+      <p><strong>Time:</strong> 3-4 hours/day</p>
+      
+      <h2 style="color: #002395; margin-top: 20px;">WEEK 9-12: ADVANCED TOPICS</h2>
+      <p><strong>Topics:</strong> Web security, Penetration testing, Incident response</p>
+      <p><strong>Resource:</strong> Hack The Box Academy + TryHackMe intermediate</p>
+      <p><strong>Time:</strong> 3-4 hours/day</p>
+      
+      <h2 style="color: #002395; margin-top: 20px;">DAILY ROUTINE (3 months)</h2>
+      <p>☀️ 09:00 - 10:30 | Watch tutorial videos</p>
+      <p>🎮 10:30 - 12:30 | Hands-on practice (TryHackMe/HTB)</p>
+      <p>📚 14:00 - 15:30 | Read documentation & blogs</p>
+      <p>🔬 15:30 - 17:00 | Build your own mini-project</p>
+      
+      <h2 style="color: #002395; margin-top: 20px;">MILESTONES</h2>
+      <p>✓ Week 2: Can explain what a firewall does</p>
+      <p>✓ Week 4: Can create strong passwords</p>
+      <p>✓ Week 8: Can analyze a network using tools</p>
+      <p>✓ Week 12: Can complete intermediate CTF challenges</p>
+      
+      <p style="margin-top: 30px; color: #667; font-size: 12px;">
+        Progress over perfection. Consistent practice beats talent every time!
+      </p>
+    </div>
+  `;
+  return content;
+}
+
+function downloadPDF(filename, content) {
+  const element = document.createElement('div');
+  element.innerHTML = content;
+  
+  const opt = {
+    margin: 10,
+    filename: filename,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+  };
+  
+  html2pdf().set(opt).from(element).save();
+}
+
+function downloadChecklist() {
+  downloadPDF('Cyber-Safety-Checklist.pdf', generateChecklist());
+}
+
+function downloadRoadmap() {
+  downloadPDF('Tech-Career-Roadmap.pdf', generateRoadmap());
+}
+
+function downloadLearningPlan() {
+  downloadPDF('Beginner-Learning-Plan.pdf', generateLearningPlan());
+}
+
+// ── CERTIFICATE FUNCTIONS ──
+function openCertificate() {
+  const agentName = document.getElementById('agent-name-title').textContent.replace(', Cyber Agent! 🛡️', '');
+  document.getElementById('certAgentName').textContent = agentName || 'Cyber Agent';
+  document.getElementById('certScore').textContent = `Quiz Score: ${score}/5`;
+  document.getElementById('certificateModal').classList.add('active');
+  saveProgress();
+}
+
+function closeCertificate() {
+  document.getElementById('certificateModal').classList.remove('active');
+}
+
+function downloadCertificate() {
+  const element = document.getElementById('certificateContent');
+  const opt = {
+    margin: 10,
+    filename: 'Cyber-Hero-Certificate.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+  };
+  html2pdf().set(opt).from(element).save();
+}
+
+function printCertificate() {
+  const element = document.getElementById('certificateContent');
+  const printWindow = window.open('', '', 'height=600,width=800');
+  printWindow.document.write('<html><head><title>Cyber Hero Certificate</title>');
+  printWindow.document.write('<style>@media print { body { margin: 0; padding: 20px; } }</style>');
+  printWindow.document.write('</head><body>');
+  printWindow.document.write(element.innerHTML);
+  printWindow.document.write('</body></html>');
+  printWindow.document.close();
+  setTimeout(() => printWindow.print(), 250);
+}
+
+// ── SOCIAL SHARING ──
+function shareWhatsApp() {
+  const agentName = document.getElementById('agent-name-title').textContent.replace(', Cyber Agent! 🛡️', '');
+  const text = encodeURIComponent(`🛡️ I just completed the Soweto Cyber Heroes Training! 🎉\n\nAgent Name: ${agentName}\nQuiz Score: ${score}/5\n\nJoin me and become a Cyber Hero! 🚀\n\nhttps://soweto-cyber-heroes.com`);
+  window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+function shareTwitter() {
+  const agentName = document.getElementById('agent-name-title').textContent.replace(', Cyber Agent! 🛡️', '');
+  const text = encodeURIComponent(`🛡️ I'm now a certified Cyber Hero! @SowetoHeroes #CyberSecurity #SowetoCyberHeroes\n\nScore: ${score}/5 ⭐`);
+  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+}
+
+function shareFacebook() {
+  const text = encodeURIComponent(`I just completed the Soweto Cyber Heroes Training and earned my Cyber Hero badge!`);
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=https://soweto-cyber-heroes.com&quote=${text}`, '_blank');
+}
+
+function copyCertLink() {
+  const shareLink = `${window.location.origin}${window.location.pathname}?cert=${currentLanguage}`;
+  navigator.clipboard.writeText(shareLink).then(() => {
+    alert('Certificate link copied to clipboard!');
+  });
+}
+
+// ── RESTORE QUIZ STATE ──
+function restoreQuizState(data) {
+  // Optional: restore quiz score visually
+  console.log('Restored progress:', data);
+}
+
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement.scrollTop;
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress-bar').style.width=(s/h*100)+'%';
+  checkBadgeUnlocks();
+});
+
+// ── REVEAL ON SCROLL ──
+const revealEls=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.1});
+revealEls.forEach(el=>observer.observe(el));
+
+// ── PASSWORD TESTER ──
+function checkPassword(pw){
+  const bar=document.getElementById('pwBar');
+  const label=document.getElementById('pwLabel');
+  const tips=document.getElementById('pwTips');
+  if(!pw){bar.style.width='0';label.textContent='';tips.textContent='';return;}
+  let score=0,msgs=[];
+  if(pw.length>=8)score++;else msgs.push('Make it at least 8 characters');
+  if(pw.length>=12)score++;else if(pw.length>=8)msgs.push('Even better at 12+ characters');
+  if(/[A-Z]/.test(pw))score++;else msgs.push('Add an uppercase letter');
+  if(/[0-9]/.test(pw))score++;else msgs.push('Add a number');
+  if(/[^A-Za-z0-9]/.test(pw))score++;else msgs.push('Add a symbol like ! @ # $');
+  const levels=[
+    {w:'10%',bg:'#E03C31',text:'Very Weak ❌'},
+    {w:'30%',bg:'#ff7b00',text:'Weak ⚠️'},
+    {w:'55%',bg:'#FFB81C',text:'Fair 🟡'},
+    {w:'80%',bg:'#00b4d8',text:'Strong 💪'},
+    {w:'100%',bg:'#007A4D',text:'Very Strong 🏆'},
+  ];
+  const l=levels[Math.min(score,4)];
+  bar.style.width=l.w;bar.style.background=l.bg;
+  label.textContent=l.text;label.style.color=l.bg;
+  tips.textContent=msgs.length?'💡 '+msgs.join(' · '):'✅ Great password! Write it down somewhere safe.';
+}
+function togglePw(){
+  const i=document.getElementById('pwInput');
+  i.type=i.type==='password'?'text':'password';
+}
+
+// ── QUIZ DATA ──
+const questions=[
+  {
+    from:'WhatsApp – Unknown Number',
+    msg:'"Dear NSFAS student, your allowance payment has failed due to incorrect banking details. Click this link to update urgently: nsfas-sa.update-banking.com"',
+    answer:'scam',
+    correct:'🎉 Correct! This is a PHISHING SCAM.',
+    explanation:'NSFAS never contacts you via WhatsApp about banking details. The fake domain "update-banking.com" is a red flag. Always go directly to nsfas.org.za.',
+  },
+  {
+    from:'SMS – FNB Bank',
+    msg:'"FNB Fraud Alert: Unusual activity on your account. Please verify at fnb.co.za/verify or call 087-575-9111."',
+    answer:'safe',
+    correct:'✅ Correct! This is a legitimate bank alert format.',
+    explanation:'Real bank SMSs link to their official domain and give their real number. However — always type the URL yourself instead of clicking links in SMS!',
+  },
+  {
+    from:'Email – Subject: "You Won! Capitec R5000 Prize"',
+    msg:'"Congratulations! You\'ve been selected for our customer appreciation reward of R5,000. To claim, send your ID and a R99 processing fee to our agent..."',
+    answer:'scam',
+    correct:'🎉 Correct! Classic advance-fee SCAM.',
+    explanation:'No bank gives prizes this way. The request for a "processing fee" is the biggest red flag. Capitec would never ask customers to pay to receive a prize.',
+  },
+  {
+    from:'SMS – SASSA',
+    msg:'"SASSA: Your SRD R350 grant has been approved for this month. No action needed. Funds will be deposited by the 25th."',
+    answer:'safe',
+    correct:'✅ Correct! This is a legitimate SASSA notification.',
+    explanation:'This SMS requires no action, asks for nothing, and doesn\'t contain any links. Legitimate government notifications inform you without requesting info.',
+  },
+  {
+    from:'WhatsApp – "Vodacom Official"',
+    msg:'"Your Vodacom account will be suspended in 24 hours! Confirm your identity by replying with your ID number and OTP that will be sent to you shortly."',
+    answer:'scam',
+    correct:'🎉 Correct! This is a major SCAM.',
+    explanation:'Vodacom NEVER asks for your OTP on WhatsApp. This is an OTP hijacking scam — the most common fraud in SA. They send the OTP themselves to access your account, then ask you to "confirm" it to them.',
+  },
+];
+let qIndex=0,score=0,answered=false;
+
+function loadQuestion(){
+  const q=questions[qIndex];
+  document.getElementById('quizQLabel').textContent=`QUESTION ${qIndex+1} OF ${questions.length}`;
+  document.getElementById('quizSource').innerHTML=`<div class="from">📱 ${q.from}</div>${q.msg}`;
+  document.getElementById('quizFeedback').style.display='none';
+  document.getElementById('quizNext').style.display='none';
+  document.getElementById('quizScore').style.display='none';
+  answered=false;
+  for(let i=0;i<5;i++){
+    const d=document.getElementById('dot'+i);
+    if(i<qIndex)d.className='quiz-dot done';
+    else if(i===qIndex)d.className='quiz-dot active';
+    else d.className='quiz-dot';
+  }
+}
+
+function quizAnswer(choice){
+  if(answered)return;
+  answered=true;
+  const q=questions[qIndex];
+  const fb=document.getElementById('quizFeedback');
+  const isCorrect=choice===q.answer;
+  if(isCorrect)score++;
+  fb.className='quiz-feedback '+(isCorrect?'correct':'wrong');
+  document.getElementById('fbTitle').textContent=isCorrect?q.correct:'❌ Not quite!';
+  document.getElementById('fbText').textContent=q.explanation;
+  fb.style.display='block';
+  if(isCorrect)launchConfetti();
+  document.getElementById('quizNext').style.display='block';
+}
+
+function nextQuestion(){
+  qIndex++;
+  if(qIndex>=questions.length){
+    showScore();return;
+  }
+  loadQuestion();
+}
+
+function showScore(){
+  document.getElementById('quizProgress').style.display='none';
+  document.getElementById('quizQLabel').style.display='none';
+  document.getElementById('quizSource').style.display='none';
+  document.querySelectorAll('.quiz-btns')[0].style.display='none';
+  document.getElementById('quizFeedback').style.display='none';
+  document.getElementById('quizNext').style.display='none';
+  const sc=document.getElementById('quizScore');
+  sc.style.display='block';
+  document.getElementById('scoreBig').textContent=`${score}/5`;
+  const msgs=['Keep practising, Agent! 💪','Getting there, Agent! 🔥','Good work, Agent! 🛡️','Excellent, Agent! ⭐','Perfect score! You\'re a Scam Buster! 🏆'];
+  document.getElementById('scoreMsg').textContent=msgs[score];
+  if(score>=3)unlockBadge(1);
+  if(score===5)launchConfetti();
+  saveProgress();
+  // Show certificate button for completion
+  if(score>=3) {
+    const certBtn = document.createElement('button');
+    certBtn.className = 'btn-primary';
+    certBtn.style.marginTop = '20px';
+    certBtn.textContent = '📜 View Certificate';
+    certBtn.onclick = openCertificate;
+    sc.appendChild(certBtn);
+  }
+}
+
+function restartQuiz(){
+  qIndex=0;score=0;
+  document.getElementById('quizProgress').style.display='flex';
+  document.getElementById('quizQLabel').style.display='block';
+  document.getElementById('quizSource').style.display='block';
+  document.querySelectorAll('.quiz-btns')[0].style.display='grid';
+  loadQuestion();
+}
+
+loadQuestion();
+
+// ── THREATS DATA ──
+const threats=[
+  {icon:'🎣',bg:'rgba(224,60,49,.15)',name:'Phishing',tag:'Most common in SA',desc:'Fake emails, SMSs or WhatsApps that trick you into giving your password or banking details. The sender pretends to be your bank, NSFAS, or SASSA.',beat:'Never click links in messages. Always type the website yourself.'},
+  {icon:'🔒',bg:'rgba(255,184,28,.1)',name:'Ransomware',tag:'Cripples schools & businesses',desc:'Malware that locks your computer and demands payment (usually Bitcoin) to unlock your files. SA hospitals and schools have been hit by this.',beat:'Back up your files regularly. Never open attachments from unknown senders.'},
+  {icon:'🐴',bg:'rgba(0,35,149,.15)',name:'Trojan Horse',tag:'Hides in fake apps',desc:'Malicious software disguised as a real app — like a fake Capitec app or cracked game. Once installed, it steals your data silently.',beat:'Only download apps from the official Google Play Store or App Store.'},
+  {icon:'👁️',bg:'rgba(100,0,200,.15)',name:'Spyware',tag:'Watches everything you do',desc:'Software that secretly monitors your activity — keystrokes, messages, even your camera. Often installed via dodgy free games or APK files.',beat:'Avoid installing APKs from WhatsApp. Use a trusted antivirus app.'},
+  {icon:'💥',bg:'rgba(0,180,216,.1)',name:'DDoS Attack',tag:'Crashes websites & services',desc:'Attackers flood a website with millions of fake requests until it crashes. SA government sites and banks have been targeted.',beat:'As a user: use strong credentials. For websites: use DDoS protection services like Cloudflare.'},
+];
+
+const grid=document.getElementById('threatsGrid');
+threats.forEach((t,i)=>{
+  const d=document.createElement('div');
+  d.className='threat-card reveal';
+  d.innerHTML=`
+    <div class="threat-header" onclick="toggleThreat(${i})">
+      <div class="threat-icon" style="background:${t.bg}">${t.icon}</div>
+      <div>
+        <div class="threat-name">${t.name}</div>
+        <div class="threat-tag">${t.tag}</div>
+      </div>
+      <div class="threat-chevron">▼</div>
+    </div>
+    <div class="threat-body" id="tb${i}">
+      ${t.desc}
+      <div class="beat-it">${t.beat}</div>
+    </div>`;
+  d.id='tc'+i;
+  grid.appendChild(d);
+  observer.observe(d);
+});
+
+function toggleThreat(i){
+  const card=document.getElementById('tc'+i);
+  card.classList.toggle('open');
+}
+
+// ── BADGES ──
+const badgesUnlocked=[false,false,false];
+function unlockBadge(i){
+  if(badgesUnlocked[i])return;
+  badgesUnlocked[i]=true;
+  document.getElementById('badge'+i).classList.add('unlocked');
+  document.getElementById('badgeLock'+i).textContent='✅ Unlocked!';
+  saveProgress();
+}
+function checkBadgeUnlocks(){
+  const careersEl=document.getElementById('careers');
+  if(careersEl){
+    const rect=careersEl.getBoundingClientRect();
+    if(rect.top<window.innerHeight)unlockBadge(2);
+  }
+}
+
+// ── CONFETTI ──
+function launchConfetti(){
+  const container=document.getElementById('confetti');
+  const colors=['#FFB81C','#007A4D','#002395','#00f5d4','#E03C31','#fff'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const x=Math.random()*100;
+    const delay=Math.random()*0.5;
+    const dur=1.5+Math.random()*1.5;
+    const rot=Math.random()*360;
+    p.style.cssText=`left:${x}%;top:-20px;background:${c};border-radius:${Math.random()>0.5?'50%':'2px'};transform:rotate(${rot}deg);opacity:1;animation:fall ${dur}s ${delay}s ease-in forwards;`;
+    container.appendChild(p);
+    setTimeout(()=>p.remove(),(dur+delay)*1000+100);
+  }
+}
+// inject fall keyframes
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}`;
+document.head.appendChild(style);
+
+// ── ENTER KEY on name input ──
+document.getElementById('agentNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')setAgentName();});
+
+// ── CLOSE MODAL ON ESCAPE ──
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeCertificate();
+});
+
+// ── INITIALIZE PAGE ──
+window.addEventListener('load', () => {
+  initLanguage();
+  initProgress();
+});
+</script>
+</body>
+</html>
