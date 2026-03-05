@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mabule International Soweto Cyber Heroes 🛡️</title>
+<title>Mabule International Mamelodi Cyber Heroes 🛡️</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -556,12 +556,15 @@
     <div id="certificateContent">
       <div class="certificate-container">
         <div class="certificate-content">
-          <div class="cert-title">CERTIFICATE</div>
-          <div class="cert-subtitle">OF CYBER SECURITY ACHIEVEMENT</div>
+          <div style="text-align:center;margin-bottom:20px;">
+            <img src="Mabule International.jpg" alt="Mabule International Logo" style="height:60px;width:auto;border-radius:8px;margin-bottom:10px;"/>
+            <div class="cert-title">CERTIFICATE</div>
+            <div class="cert-subtitle">OF CYBER SECURITY ACHIEVEMENT</div>
+          </div>
           <div class="cert-text">This certifies that</div>
           <div class="cert-agent-name" id="certAgentName">Cyber Agent</div>
           <div class="cert-badge">🛡️</div>
-          <div class="cert-text">has successfully completed the<br/><strong>Mabule International Soweto Cyber Heroes Training 2026</strong></div>
+          <div class="cert-text">has successfully completed the<br/><strong>Mabule International Soweto Cyber Heroes Training 2025</strong></div>
           <div class="cert-text">by demonstrating knowledge in:</div>
           <div style="font-size:.9rem;color:#a0b4d0;margin:16px 0;">
             ✓ Cyber Hygiene & Password Security<br/>
@@ -570,10 +573,14 @@
             ✓ Career Pathways in Cybersecurity
           </div>
           <div class="cert-score" id="certScore">Quiz Score: 5/5</div>
-          <div class="cert-date" id="certDate">Date: March 7, 2026</div>
+          <div class="cert-date" id="certDate">Date: March 5, 2026</div>
           <div class="cert-text" style="font-size:.85rem;margin-top:24px;">
             You are now a certified Cyber Hero.<br/>
             <strong>Protect Soweto. Protect the Future.</strong>
+          </div>
+          <div style="text-align:center;margin-top:20px;font-size:.8rem;color:#667;">
+            Issued by Mabule International<br/>
+            Empowering Communities Through Technology
           </div>
         </div>
       </div>
@@ -617,7 +624,7 @@
 <!-- HERO -->
 <section id="hero">
   <div class="container">
-    <div class="hero-badge">Mabule International SOWETO CYBER HEROES 2026</div>
+    <div class="hero-badge">Mabule International MAMELODI CYBER HEROES 2026</div>
     <h1 class="hero-title">Welcome,<br><span id="agent-name-title">Cyber Agent!</span></h1>
     <p class="hero-sub">Your mission: protect your family, school, and future from cyber threats — and maybe become a real Cyber Hero one day. 🚀</p>
     <div class="agent-input-row">
@@ -831,7 +838,7 @@
 
     <div style="margin-top:28px;background:rgba(255,184,28,.08);border-radius:16px;padding:20px;border-left:4px solid var(--yellow);font-size:.88rem;color:#a0b4d0;line-height:1.7;" class="reveal">
       💬 <strong style="color:white;">"Many South Africans started exactly like you — no money, just a phone and curiosity."</strong><br/>
-      Thabo from Soweto started on TryHackMe at 17. At 22 he was earning R40k/month as a junior pen tester.<br/>No university degree. Just free courses, practice, and persistence.
+      Thabo from Mamelodi started on TryHackMe at 17. At 22 he was earning R40k/month as a junior pen tester.<br/>No university degree. Just free courses, practice, and persistence.
     </div>
   </div>
 </section>
@@ -915,7 +922,7 @@
     <div class="contact-box reveal">
       <h3>🤝 Got questions, Agent?</h3>
       <p>Your presenter is here to help. Whether you want career advice, free course links, or just want to chat about getting into cybersecurity — send a message!</p>
-      <a href="https://wa.me/27000000000?text=Hi!%20I%20completed%20the%20Soweto%20Cyber%20Heroes%20training%20and%20want%20to%20learn%20more%20%F0%9F%9B%A1%EF%B8%8F" target="_blank" class="wa-btn">
+      <a href="https://wa.me/27000000000?text=Hi!%20I%20completed%20the%20Mamelodi%20Cyber%20Heroes%20training%20and%20want%20to%20learn%20more%20%F0%9F%9B%A1%EF%B8%8F" target="_blank" class="wa-btn">
         💬 WhatsApp Your Presenter
       </a>
       <p style="font-size:.75rem;color:#2a3560;margin-top:12px;">Update the WhatsApp number above before deploying!</p>
@@ -924,8 +931,8 @@
 </section>
 
 <footer>
-  Made with Honour for Soweto's future <span>Cyber Heroes</span> 🛡️ | 2026<br/>
-  <span style="color:#2a3560;">Protecting Soweto, one agent at a time.</span>
+  Made with Honour for Mamelodi's future <span>Cyber Heroes</span> 🛡️ | 2026<br/>
+  <span style="color:#2a3560;">Protecting Mamelodi, one agent at a time.</span>
 </footer>
 
 <script>
@@ -1096,7 +1103,7 @@ function generateChecklist() {
       <input type="checkbox"/> Set parental controls on children's devices
       
       <p style="margin-top: 30px; color: #667; font-size: 12px;">
-        Created by Soweto Cyber Heroes 🛡️ | Protecting our community, one agent at a time.
+        Created by Mamelodi Cyber Heroes 🛡️ | Protecting our community, one agent at a time.
       </p>
     </div>
   `;
@@ -1260,19 +1267,19 @@ function printCertificate() {
 // ── SOCIAL SHARING ──
 function shareWhatsApp() {
   const agentName = document.getElementById('agent-name-title').textContent.replace(', Cyber Agent! 🛡️', '');
-  const text = encodeURIComponent(`🛡️ I just completed the Soweto Cyber Heroes Training! 🎉\n\nAgent Name: ${agentName}\nQuiz Score: ${score}/5\n\nJoin me and become a Cyber Hero! 🚀\n\nhttps://soweto-cyber-heroes.com`);
+  const text = encodeURIComponent(`🛡️ I just completed the Mamelodi Cyber Heroes Training! 🎉\n\nAgent Name: ${agentName}\nQuiz Score: ${score}/5\n\nJoin me and become a Cyber Hero! 🚀\n\nhttps://Mamelodi-cyber-heroes.com`);
   window.open(`https://wa.me/?text=${text}`, '_blank');
 }
 
 function shareTwitter() {
   const agentName = document.getElementById('agent-name-title').textContent.replace(', Cyber Agent! 🛡️', '');
-  const text = encodeURIComponent(`🛡️ I'm now a certified Cyber Hero! @SowetoHeroes #CyberSecurity #SowetoCyberHeroes\n\nScore: ${score}/5 ⭐`);
+  const text = encodeURIComponent(`🛡️ I'm now a certified Cyber Hero! @MamelodiHeroes #CyberSecurity #MamelodiCyberHeroes\n\nScore: ${score}/5 ⭐`);
   window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
 }
 
 function shareFacebook() {
-  const text = encodeURIComponent(`I just completed the Soweto Cyber Heroes Training and earned my Cyber Hero badge!`);
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=https://soweto-cyber-heroes.com&quote=${text}`, '_blank');
+  const text = encodeURIComponent(`I just completed the Mamelodi Cyber Heroes Training and earned my Cyber Hero badge!`);
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=https://Mamelodi-cyber-heroes.com&quote=${text}`, '_blank');
 }
 
 function copyCertLink() {
